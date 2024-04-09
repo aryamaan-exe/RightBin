@@ -9,9 +9,6 @@
 .history
 .svn/
 migrate_working_dir/
-windows/
-linux/
-macos/
 
 # IntelliJ related
 *.iml
@@ -33,6 +30,9 @@ macos/
 .pub-cache/
 .pub/
 /build/
+/windows/
+/linux/
+/macos/
 
 # Symbolication related
 app.*.symbols
