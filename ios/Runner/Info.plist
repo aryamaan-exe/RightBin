@@ -45,5 +45,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to your camera so you can take a picture and identify waste.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your gallery so you can pick an image for identifying waste.</string>
 </dict>
 </plist>

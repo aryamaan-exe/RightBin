@@ -91,6 +91,25 @@ class Camera extends StatefulWidget {
 class _CameraState extends State<Camera> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    double height = MediaQuery.of(context).size.height;
+
+    return SingleChildScrollView(
+        child: Center(
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(0, height / 4, 0, 0),
+        child: Column(
+          children: [
+            ElevatedButton(
+                onPressed: () {},
+                style: ebs,
+                child: Text("Choose image from gallery")),
+            ElevatedButton(
+                onPressed: () {},
+                style: ebs,
+                child: Text("Click an image from camera"))
+          ],
+        ),
+      ),
+    ));
   }
 }
