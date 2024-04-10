@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:rightbin/consts.dart';
 
 TextStyle head = TextStyle(fontSize: 24);
 void main() {
@@ -14,14 +14,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int i = 0;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
         title: Text("Your Stats"),
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
+        backgroundColor: bg,
+        foregroundColor: fg,
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -41,6 +43,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ]),
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: bg,
+        selectedItemColor: fg,
+        unselectedItemColor: ac,
+        currentIndex: i,
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.auto_graph_rounded), label: "Stats"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.camera_alt_rounded), label: "Search")
+        ],
+        onTap: (value) {
+          setState(() {
+            i = value;
+          });
+        },
       ),
     ));
   }
