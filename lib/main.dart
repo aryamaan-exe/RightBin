@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rightbin/consts.dart';
 
-TextStyle head = TextStyle(fontSize: 24);
+TextStyle head = const TextStyle(fontSize: 24);
 void main() {
-  runApp(HomeScreen());
+  runApp(const HomeScreen());
 }
 
 class HomeScreen extends StatefulWidget {
@@ -15,8 +15,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int i = 0;
-  var pages = <Widget>[Stats(), Camera()];
-  var titles = [Text("Your Stats"), Text("Identify")];
+  var pages = <Widget>[const Stats(), const Camera()];
+  var titles = [const Text("Your Stats"), const Text("Identify")];
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedItemColor: fg,
         unselectedItemColor: ac,
         currentIndex: i,
-        items: [
+        items: const [
           BottomNavigationBarItem(
               icon: Icon(Icons.auto_graph_rounded), label: "Stats"),
           BottomNavigationBarItem(
@@ -102,11 +102,11 @@ class _CameraState extends State<Camera> {
             ElevatedButton(
                 onPressed: () {},
                 style: ebs,
-                child: Text("Choose image from gallery")),
+                child: const Text("Choose image from gallery")),
             ElevatedButton(
                 onPressed: () {},
                 style: ebs,
-                child: Text("Click an image from camera"))
+                child: const Text("Click an image from camera"))
           ],
         ),
       ),
