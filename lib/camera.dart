@@ -14,12 +14,10 @@ class _CameraState extends State<Camera> {
   dynamic selection = false;
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-
     return SingleChildScrollView(
         child: Center(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
+        padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
         child: Column(
           children: [
             Padding(
@@ -37,12 +35,12 @@ class _CameraState extends State<Camera> {
                 },
                 style: ebs,
                 child: const Text("Click an image from camera")),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             (selection != false)
                 ? Image.file(selection)
-                : Text("Your image will show up here"),
+                : const Text("Your image will show up here"),
           ],
         ),
       ),
