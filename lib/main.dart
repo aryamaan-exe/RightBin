@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rightbin/consts.dart';
+import 'camera.dart';
 
 TextStyle head = const TextStyle(fontSize: 24);
 void main() {
@@ -78,41 +79,5 @@ class _StatsState extends State<Stats> {
             ]),
       ),
     );
-  }
-}
-
-class Camera extends StatefulWidget {
-  const Camera({super.key});
-
-  @override
-  State<Camera> createState() => _CameraState();
-}
-
-class _CameraState extends State<Camera> {
-  @override
-  Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-
-    return SingleChildScrollView(
-        child: Center(
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(0, height / 4, 0, 0),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                  onPressed: () {},
-                  style: ebs,
-                  child: const Text("Choose image from gallery")),
-            ),
-            ElevatedButton(
-                onPressed: () {},
-                style: ebs,
-                child: const Text("Click an image from camera"))
-          ],
-        ),
-      ),
-    ));
   }
 }
