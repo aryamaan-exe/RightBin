@@ -99,10 +99,13 @@ class _CameraState extends State<Camera> {
         padding: EdgeInsets.fromLTRB(0, height / 4, 0, 0),
         child: Column(
           children: [
-            ElevatedButton(
-                onPressed: () {},
-                style: ebs,
-                child: const Text("Choose image from gallery")),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                  onPressed: () {},
+                  style: ebs,
+                  child: const Text("Choose image from gallery")),
+            ),
             ElevatedButton(
                 onPressed: () {},
                 style: ebs,

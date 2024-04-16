@@ -1,16 +1,7 @@
-# rightbin
+# RightBin
+***Sustainable Living Companion: An App for Eco-Friendly Lifestyle***
 
-A new Flutter project.
+RightBin is an app that helps you on your waste segregation journey. There are several features to help you become an eco warrior:
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1) Scan labels or waste material  to identify waste and method of disposal
+2) Your statistics displaying the amount of waste you dispose
