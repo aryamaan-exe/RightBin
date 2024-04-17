@@ -7,3 +7,4 @@ ButtonStyle ebs = ButtonStyle(
   backgroundColor: MaterialStatePropertyAll<Color>(bg),
   foregroundColor: MaterialStatePropertyAll<Color>(fg),
 );
+TextStyle head = const TextStyle(fontSize: 24);

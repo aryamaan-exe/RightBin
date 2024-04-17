@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:rightbin/consts.dart';
+import 'auth.dart';
 import 'camera.dart';
+import 'stats.dart';
 
-TextStyle head = const TextStyle(fontSize: 24);
 void main() {
-  runApp(const HomeScreen());
+  runApp(const AuthScreen());
 }
 
 class HomeScreen extends StatefulWidget {
@@ -48,36 +49,5 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     ));
-  }
-}
-
-class Stats extends StatefulWidget {
-  const Stats({super.key});
-
-  @override
-  State<Stats> createState() => _StatsState();
-}
-
-class _StatsState extends State<Stats> {
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                color: Colors.blue,
-                height: 500,
-              ),
-              Text("Recent Disposals", style: head),
-              Container(
-                color: Colors.blue,
-                height: 500,
-              ),
-            ]),
-      ),
-    );
   }
 }
