@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rightbin/consts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:http/http.dart' as http;
 import 'dart:io';
 
 class Camera extends StatefulWidget {
@@ -12,6 +14,8 @@ class Camera extends StatefulWidget {
 
 class _CameraState extends State<Camera> {
   dynamic selection = false;
+  var client = http.Client();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -30,8 +34,10 @@ class _CameraState extends State<Camera> {
                   child: const Text("Choose image from gallery")),
             ),
             ElevatedButton(
-                onPressed: () {
-                  _pickImage(0);
+                onPressed: () async {
+                  if (await Permission.camera.request().isGranted) {
+                    _pickImage(0);
+                  }
                 },
                 style: ebs,
                 child: const Text("Click an image from camera")),
@@ -53,6 +59,7 @@ class _CameraState extends State<Camera> {
     if (image == null) return;
     setState(() {
       selection = File(image.path);
+      // objDetection();
     });
   }
 }
