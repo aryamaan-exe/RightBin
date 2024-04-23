@@ -16,25 +16,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int i = 0;
+  int i = 1;
   var pages = <Widget>[const Stats(), const Camera()];
-  var titles = [const Text("Your Stats"), const Text("Identify")];
+  var titles = [const Text("Your Stats"), const Text("")];
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-      appBar: AppBar(
-        title: titles[i],
-        backgroundColor: bg,
-        foregroundColor: fg,
-        centerTitle: true,
-      ),
+      backgroundColor: dm,
+      // appBar: AppBar(
+      //   title: titles[i],
+      //   backgroundColor: dm,
+      //   foregroundColor: fg,
+      //   centerTitle: true,
+      // ),
       body: pages[i],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: bg,
         selectedItemColor: fg,
-        unselectedItemColor: ac,
+        unselectedItemColor: bg_old,
         currentIndex: i,
         items: const [
           BottomNavigationBarItem(

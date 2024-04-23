@@ -18,12 +18,12 @@ class _StatsState extends State<Stats> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                color: Colors.blue,
+                color: fg,
                 height: 500,
               ),
               Text("Recent Disposals", style: head),
               Container(
-                color: Colors.blue,
+                color: fg,
                 height: 500,
               ),
             ]),
