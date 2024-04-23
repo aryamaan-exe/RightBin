@@ -103,37 +103,52 @@ class _CameraState extends State<Camera> {
     ));
   }
 
-  Future _pickImage(int n) async {
-    final image = await ImagePicker()
-        .pickImage(source: n == 1 ? ImageSource.gallery : ImageSource.camera);
+  Future<void> _pickImage(int n) async {
+    final image = await ImagePicker().pickImage(
+      source: n == 1 ? ImageSource.gallery : ImageSource.camera,
+    );
+
     if (image == null) {
-      print("hello");
+      print("Image selection canceled");
       return;
     }
-    selection = File(image.path);
-    final InputImage input = InputImage.fromFile(selection);
-    final mode = DetectionMode.single;
-    final options = ObjectDetectorOptions(
-        mode: mode, classifyObjects: true, multipleObjects: true);
-    final objectDetector = ObjectDetector(options: options);
-    setState(() => out = "hi");
-    final List<DetectedObject> objects =
-        await objectDetector.processImage(input);
 
     setState(() {
-      selection = File(image.path);
-      print("OBJECTS");
-      print(objects);
-      for (var detectedObject in objects) {
-        final rect = detectedObject.boundingBox;
-
-        out = rect.toString();
-        out = detectedObject.labels[0].text;
-        for (Label label in detectedObject.labels) {
-          out = label.confidence.toString();
-        }
-      }
-      objectDetector.close();
+      out = "Processing image...";
     });
+
+    final File selection = File(image.path);
+    final InputImage input = InputImage.fromFile(selection);
+    final DetectionMode mode = DetectionMode.single;
+    final ObjectDetectorOptions options = ObjectDetectorOptions(
+      mode: mode,
+      classifyObjects: true,
+      multipleObjects: true,
+    );
+    final ObjectDetector objectDetector = ObjectDetector(options: options);
+
+    try {
+      final List<DetectedObject> objects =
+          await objectDetector.processImage(input);
+
+      setState(() {
+        out = "Detected objects:";
+        for (DetectedObject detectedObject in objects) {
+          final List<Label> labels = detectedObject.labels;
+          if (labels.isNotEmpty) {
+            out +=
+                "\nLabel: ${labels[0].text}, Confidence: ${labels[0].confidence}";
+          } else {
+            out += "\nNo labels detected for this object";
+          }
+        }
+      });
+    } catch (e) {
+      setState(() {
+        out = "Error: $e";
+      });
+    } finally {
+      objectDetector.close();
+    }
   }
 }
