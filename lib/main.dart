@@ -4,7 +4,7 @@ import 'auth.dart';
 import 'camera.dart';
 import 'stats.dart';
 
-void main() {
+void main() async {
   runApp(const HomeScreen());
 }
 

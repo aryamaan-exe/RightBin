@@ -14,6 +14,7 @@ class Camera extends StatefulWidget {
 
 class _CameraState extends State<Camera> {
   dynamic selection = false;
+  dynamic out = 'owo';
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +86,10 @@ class _CameraState extends State<Camera> {
           const SizedBox(
             height: 16,
           ),
+          Text(
+            out,
+            style: fs,
+          ),
           (selection != false)
               ? Image.file(selection)
               : Padding(
@@ -101,26 +106,34 @@ class _CameraState extends State<Camera> {
   Future _pickImage(int n) async {
     final image = await ImagePicker()
         .pickImage(source: n == 1 ? ImageSource.gallery : ImageSource.camera);
-    if (image == null) return;
-    WidgetsBinding.instance.addPostFrameCallback((_) => () async {
-          selection = File(image.path);
-          final InputImage input = selection;
-          final mode = DetectionMode.single;
-          final options = ObjectDetectorOptions(
-              mode: mode, classifyObjects: true, multipleObjects: false);
-          final objectDetector = ObjectDetector(options: options);
-          final List<DetectedObject> objects =
-              await objectDetector.processImage(input);
+    if (image == null) {
+      print("hello");
+      return;
+    }
+    selection = File(image.path);
+    final InputImage input = InputImage.fromFile(selection);
+    final mode = DetectionMode.single;
+    final options = ObjectDetectorOptions(
+        mode: mode, classifyObjects: true, multipleObjects: true);
+    final objectDetector = ObjectDetector(options: options);
+    setState(() => out = "hi");
+    final List<DetectedObject> objects =
+        await objectDetector.processImage(input);
 
-          for (DetectedObject detectedObject in objects) {
-            // final rect = detectedObject.boundingBox;
-            // final trackingId = detectedObject.trackingId;
+    setState(() {
+      selection = File(image.path);
+      print("OBJECTS");
+      print(objects);
+      for (var detectedObject in objects) {
+        final rect = detectedObject.boundingBox;
 
-            for (Label label in detectedObject.labels) {
-              print('${label.text} ${label.confidence}');
-            }
-          }
-          objectDetector.close();
-        });
+        out = rect.toString();
+        out = detectedObject.labels[0].text;
+        for (Label label in detectedObject.labels) {
+          out = label.confidence.toString();
+        }
+      }
+      objectDetector.close();
+    });
   }
 }
