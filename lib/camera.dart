@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_mlkit_object_detection/google_mlkit_object_detection.dart';
 import 'package:rightbin/consts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:http/http.dart' as http;
 import 'dart:io';
 
 class Camera extends StatefulWidget {
@@ -14,7 +14,6 @@ class Camera extends StatefulWidget {
 
 class _CameraState extends State<Camera> {
   dynamic selection = false;
-  var client = http.Client();
 
   @override
   Widget build(BuildContext context) {
@@ -103,9 +102,25 @@ class _CameraState extends State<Camera> {
     final image = await ImagePicker()
         .pickImage(source: n == 1 ? ImageSource.gallery : ImageSource.camera);
     if (image == null) return;
-    setState(() {
-      selection = File(image.path);
-      // objDetection();
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) => () async {
+          selection = File(image.path);
+          final InputImage input = selection;
+          final mode = DetectionMode.single;
+          final options = ObjectDetectorOptions(
+              mode: mode, classifyObjects: true, multipleObjects: false);
+          final objectDetector = ObjectDetector(options: options);
+          final List<DetectedObject> objects =
+              await objectDetector.processImage(input);
+
+          for (DetectedObject detectedObject in objects) {
+            // final rect = detectedObject.boundingBox;
+            // final trackingId = detectedObject.trackingId;
+
+            for (Label label in detectedObject.labels) {
+              print('${label.text} ${label.confidence}');
+            }
+          }
+          objectDetector.close();
+        });
   }
 }
