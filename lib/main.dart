@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:rightbin/consts.dart';
+import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'auth.dart';
 import 'camera.dart';
 import 'stats.dart';
 
 void main() async {
-  runApp(const AuthScreen());
+  try {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      // (user != null) ? const HomeScreen() :
+      runApp(const AuthScreen());
+    });
+  } catch (e) {
+    runApp(const AuthScreen());
+  }
 }
 
 class HomeScreen extends StatefulWidget {

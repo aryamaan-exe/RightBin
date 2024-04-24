@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "3520534618",
+    "project_id": "rightbin-fef55",
+    "storage_bucket": "rightbin-fef55.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:3520534618:android:c8f349646b6db8650da063",
+        "android_client_info": {
+          "package_name": "com.example.rightbin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "3520534618-hs9pb1ggbccj6flqv7fb4nrn8p5s668o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKX7tpz3IXQRpnEtI2ikLWEUjyYJAhTHM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "3520534618-hs9pb1ggbccj6flqv7fb4nrn8p5s668o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
