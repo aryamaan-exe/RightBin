@@ -16,14 +16,23 @@ var ebs = ButtonStyle(
     backgroundColor: const MaterialStatePropertyAll<Color>(bg),
     foregroundColor: const MaterialStatePropertyAll<Color>(fg),
     shape: r);
+var ebs2 = ButtonStyle(
+    maximumSize: MaterialStatePropertyAll<Size>(Size(128, 48)),
+    backgroundColor: const MaterialStatePropertyAll<Color>(bg),
+    foregroundColor: const MaterialStatePropertyAll<Color>(fg),
+    shape: r);
 const head = TextStyle(fontSize: 36, color: fg);
 const sch = TextStyle(fontSize: 50, color: fg);
 const fs = TextStyle(color: fg);
-const fd = InputDecoration(
-  enabledBorder: UnderlineInputBorder(
-    borderSide: BorderSide(color: fg),
-  ),
-  focusedBorder: UnderlineInputBorder(
-    borderSide: BorderSide(color: bg),
-  ),
-);
+InputDecoration fd(String x) {
+  return InputDecoration(
+    label: Text(x),
+    focusColor: bg,
+    enabledBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: fg),
+    ),
+    focusedBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: bg),
+    ),
+  );
+}

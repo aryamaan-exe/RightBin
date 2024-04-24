@@ -17,13 +17,12 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: Theme.of(context).copyWith(
+          textSelectionTheme: TextSelectionThemeData(selectionColor: bg),
+          inputDecorationTheme:
+              InputDecorationTheme(floatingLabelStyle: TextStyle(color: bg))),
       home: Scaffold(
-          appBar: AppBar(
-            title: titles[i],
-            backgroundColor: bg,
-            foregroundColor: fg,
-            centerTitle: true,
-          ),
+          backgroundColor: dm,
           body: SingleChildScrollView(
             child: Padding(padding: const EdgeInsets.all(16), child: Login()),
           )),
@@ -41,14 +40,35 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TextFormField(
-          style: fs,
-          cursorColor: fg,
-          decoration: fd,
-        )
+        SizedBox(
+            width: width / 2,
+            child: TextFormField(
+                style: fs, cursorColor: fg, decoration: fd('Email'))),
+        SizedBox(
+          width: width / 2,
+          child: TextFormField(
+            style: fs,
+            cursorColor: fg,
+            decoration: fd('Password'),
+            obscureText: true,
+          ),
+        ),
+        SizedBox(
+          height: 16,
+        ),
+        ElevatedButton(
+          onPressed: () {
+            // do auth :O
+          },
+          style: ebs2,
+          child: Container(
+            child: Center(child: Text("LOGIN")),
+          ),
+        ),
       ],
     );
   }

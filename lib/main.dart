@@ -5,7 +5,7 @@ import 'camera.dart';
 import 'stats.dart';
 
 void main() async {
-  runApp(const HomeScreen());
+  runApp(const AuthScreen());
 }
 
 class HomeScreen extends StatefulWidget {
