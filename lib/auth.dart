@@ -6,56 +6,6 @@ import 'firebase_options.dart';
 import 'main.dart';
 import 'consts.dart';
 
-class AuthScreen extends StatefulWidget {
-  const AuthScreen({Key? key}) : super(key: key);
-
-  @override
-  State<AuthScreen> createState() => _AuthScreenState();
-}
-
-class _AuthScreenState extends State<AuthScreen> {
-  int i = 1;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    dynamic screens = [const Register(), const Login()];
-    return FutureBuilder(
-        future: Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform,
-        ),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              return MaterialApp(
-                routes: {
-                  '/home/': (context) => const HomeScreen(),
-                },
-                theme: Theme.of(context).copyWith(
-                  textSelectionTheme:
-                      TextSelectionThemeData(selectionColor: bg),
-                  inputDecorationTheme: InputDecorationTheme(
-                      floatingLabelStyle: TextStyle(color: bg)),
-                ),
-                home: Scaffold(
-                  backgroundColor: dm,
-                  body: SingleChildScrollView(
-                    padding: const EdgeInsets.all(16),
-                    child: screens[i],
-                  ),
-                ),
-              );
-            default:
-              return Placeholder();
-          }
-        });
-  }
-}
-
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
@@ -84,53 +34,87 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          width: width / 2,
-          child: TextFormField(
-            controller: _email,
-            style: fs,
-            cursorColor: fg,
-            decoration: fd('Email'),
-          ),
+
+    return FutureBuilder(
+        future: Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
         ),
-        SizedBox(
-          width: width / 2,
-          child: TextFormField(
-            controller: _password,
-            style: fs,
-            cursorColor: fg,
-            decoration: fd('Password'),
-            obscureText: true,
-          ),
-        ),
-        SizedBox(
-          height: 16,
-        ),
-        ElevatedButton(
-          onPressed: () {
-            signIn();
-          },
-          style: ebs2,
-          child: Container(
-            child: Center(child: Text("LOGIN")),
-          ),
-        ),
-        GestureDetector(
-            onTap: () {
-              setState(() {});
-            },
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-              child: const Text(
-                "Don't have an account? Register here!",
-                style: TextStyle(color: Color.fromARGB(255, 6, 185, 120)),
-              ),
-            ))
-      ],
-    );
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              return MaterialApp(
+                routes: {
+                  '/home/': (context) => const HomeScreen(),
+                  '/register/': (context) => const Register(),
+                },
+                theme: Theme.of(context).copyWith(
+                  textSelectionTheme:
+                      TextSelectionThemeData(selectionColor: bg),
+                  inputDecorationTheme: InputDecorationTheme(
+                      floatingLabelStyle: TextStyle(color: bg)),
+                ),
+                home: Scaffold(
+                  backgroundColor: dm,
+                  body: SingleChildScrollView(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: width / 2,
+                          child: TextFormField(
+                            controller: _email,
+                            style: fs,
+                            cursorColor: fg,
+                            decoration: fd('Email'),
+                          ),
+                        ),
+                        SizedBox(
+                          width: width / 2,
+                          child: TextFormField(
+                            controller: _password,
+                            style: fs,
+                            cursorColor: fg,
+                            decoration: fd('Password'),
+                            obscureText: true,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            signIn();
+                          },
+                          style: ebs2,
+                          child: Container(
+                            child: Center(child: Text("LOGIN")),
+                          ),
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                    '/register/', (route) => false);
+                              });
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                              child: const Text(
+                                "Don't have an account? Register here!",
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 6, 185, 120)),
+                              ),
+                            ))
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            default:
+              return Placeholder();
+          }
+        });
   }
 
   Future<void> signIn() async {
@@ -174,42 +158,47 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          width: width / 2,
-          child: TextFormField(
-            controller: _email,
-            style: fs,
-            cursorColor: fg,
-            decoration: fd('Email'),
-          ),
-        ),
-        SizedBox(
-          width: width / 2,
-          child: TextFormField(
-            controller: _password,
-            style: fs,
-            cursorColor: fg,
-            decoration: fd('Password'),
-            obscureText: true,
-          ),
-        ),
-        SizedBox(
-          height: 16,
-        ),
-        ElevatedButton(
-          onPressed: () {
-            register();
-          },
-          style: ebs2,
-          child: Container(
-            child: Center(child: Text("REGISTER")),
-          ),
-        ),
-      ],
-    );
+    return MaterialApp(
+        routes: {
+          '/home/': (context) => HomeScreen(),
+          '/login/': (context) => Login(),
+        },
+        home: Scaffold(
+            body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+                width: width / 2,
+                child: TextFormField(
+                  controller: _email,
+                  style: fs,
+                  cursorColor: fg,
+                  decoration: fd('Email'),
+                )),
+            SizedBox(
+              width: width / 2,
+              child: TextFormField(
+                controller: _password,
+                style: fs,
+                cursorColor: fg,
+                decoration: fd('Password'),
+                obscureText: true,
+              ),
+            ),
+            SizedBox(
+              height: 16,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                register();
+              },
+              style: ebs2,
+              child: Container(
+                child: Center(child: Text("REGISTER")),
+              ),
+            ),
+          ],
+        )));
   }
 
   Future<void> register() async {

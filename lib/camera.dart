@@ -4,6 +4,23 @@ import 'package:rightbin/consts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:typed_data';
+import 'package:image/image.dart' as img;
+
+Future<String> getModelPath(String asset) async {
+  final path = '${(await getApplicationSupportDirectory()).path}/$asset';
+  await Directory(dirname(path)).create(recursive: true);
+  final file = File(path);
+  if (!await file.exists()) {
+    final byteData = await rootBundle.load(asset);
+    await file.writeAsBytes(byteData.buffer
+        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+  }
+  return file.path;
+}
 
 class Camera extends StatefulWidget {
   const Camera({super.key});
@@ -117,19 +134,23 @@ class _CameraState extends State<Camera> {
       out = "Processing image...";
     });
 
+    final modelPath = await getModelPath('lib/assets/model.tflite');
+    final options = LocalObjectDetectorOptions(
+      mode: DetectionMode.stream,
+      modelPath: modelPath,
+      classifyObjects: true,
+      multipleObjects: false,
+    );
+
+    final objectDetector = ObjectDetector(options: options);
+
     final File selection = File(image.path);
     final InputImage input = InputImage.fromFile(selection);
-    final DetectionMode mode = DetectionMode.single;
-    final ObjectDetectorOptions options = ObjectDetectorOptions(
-      mode: mode,
-      classifyObjects: true,
-      multipleObjects: true,
-    );
-    final ObjectDetector objectDetector = ObjectDetector(options: options);
 
     try {
       final List<DetectedObject> objects =
-          await objectDetector.processImage(input);
+          await objectDetector.processImage(input as InputImage);
+      print(objects);
 
       setState(() {
         out = "Detected objects:";

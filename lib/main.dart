@@ -11,10 +11,11 @@ void main() async {
   try {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       // (user != null) ? const HomeScreen() :
-      runApp(const AuthScreen());
+      // runApp(const Login());
+      runApp(const HomeScreen());
     });
   } catch (e) {
-    runApp(const AuthScreen());
+    runApp(const HomeScreen());
   }
 }
 
