@@ -3,12 +3,26 @@ import 'package:google_mlkit_object_detection/google_mlkit_object_detection.dart
 import 'package:rightbin/consts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:tflite_flutter/tflite_flutter.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:typed_data';
 import 'package:image/image.dart' as img;
+import 'package:tflite_flutter/tflite_flutter_platform_interface.dart';
+
+Uint8List preprocessImage(Uint8List imageData) {
+  img.Image? image = img.decodeImage(imageData);
+
+  image = img.copyResize(image as img.Image, width: 128, height: 128);
+
+  image = img.normalize(image, min: 0, max: 255);
+
+  Uint8List processedImageData = image.getBytes();
+
+  return processedImageData;
+}
 
 Future<String> getModelPath(String asset) async {
   final path = '${(await getApplicationSupportDirectory()).path}/$asset';
@@ -134,42 +148,16 @@ class _CameraState extends State<Camera> {
       out = "Processing image...";
     });
 
-    final modelPath = await getModelPath('lib/assets/model.tflite');
-    final options = LocalObjectDetectorOptions(
-      mode: DetectionMode.stream,
-      modelPath: modelPath,
-      classifyObjects: true,
-      multipleObjects: false,
-    );
+    // final modelPath = await getModelPath();
+    /*
+    final interpreter = await Interpreter.fromAsset('lib/assets/model.tflite');
+    var input = await image.readAsBytes();
+    img.Image? inp = img.decodeImage(input);
+    inp = img.copyResize(inp!, width: 128, height: 128);
+    inp = img.normalize(inp, min: 0, max: 255);
 
-    final objectDetector = ObjectDetector(options: options);
-
-    final File selection = File(image.path);
-    final InputImage input = InputImage.fromFile(selection);
-
-    try {
-      final List<DetectedObject> objects =
-          await objectDetector.processImage(input as InputImage);
-      print(objects);
-
-      setState(() {
-        out = "Detected objects:";
-        for (DetectedObject detectedObject in objects) {
-          final List<Label> labels = detectedObject.labels;
-          if (labels.isNotEmpty) {
-            out +=
-                "\nLabel: ${labels[0].text}, Confidence: ${labels[0].confidence}";
-          } else {
-            out += "\nNo labels detected for this object";
-          }
-        }
-      });
-    } catch (e) {
-      setState(() {
-        out = "Error: $e";
-      });
-    } finally {
-      objectDetector.close();
-    }
+    var output = List.filled(1 * 2, 0).reshape([2, 1]);
+    interpreter.run(inp.getBytes(), output);
+    print(output);*/
   }
 }

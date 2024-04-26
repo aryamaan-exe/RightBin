@@ -27,8 +27,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int i = 1;
-  var pages = <Widget>[const Stats(), const Camera()];
+  int i = 0;
+  var pages = <Widget>[
+    const Stats(),
+    const Placeholder(),
+  ];
   var titles = [const Text("Your Stats"), const Text("")];
 
   @override

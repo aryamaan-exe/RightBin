@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 
 const bg_old = Color(0xffb9eb9b);
 const fg_old = Color(0xff1a2226);
-const ac = Color.fromARGB(233, 44, 15, 1);
+const ac = Color.fromARGB(233, 25, 173, 70);
 const bg = Color(0xff133A0D);
 const fg = Colors.white;
 const dm = Colors.black;
