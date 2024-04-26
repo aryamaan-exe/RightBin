@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/widgets.dart';
 import 'firebase_options.dart';
 import 'main.dart';
 import 'consts.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();
@@ -34,6 +33,9 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    NetworkImage bgimg =
+        const NetworkImage('https://images.aryamaan.xyz/Scanner.png');
 
     return FutureBuilder(
         future: Firebase.initializeApp(
@@ -43,76 +45,98 @@ class _LoginState extends State<Login> {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
               return MaterialApp(
-                routes: {
-                  '/home/': (context) => const HomeScreen(),
-                  '/register/': (context) => const Register(),
-                },
-                theme: Theme.of(context).copyWith(
-                  textSelectionTheme:
-                      TextSelectionThemeData(selectionColor: bg),
-                  inputDecorationTheme: InputDecorationTheme(
-                      floatingLabelStyle: TextStyle(color: bg)),
-                ),
-                home: Scaffold(
-                  backgroundColor: dm,
-                  body: SingleChildScrollView(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: width / 2,
-                          child: TextFormField(
-                            controller: _email,
-                            style: fs,
-                            cursorColor: fg,
-                            decoration: fd('Email'),
-                          ),
-                        ),
-                        SizedBox(
-                          width: width / 2,
-                          child: TextFormField(
-                            controller: _password,
-                            style: fs,
-                            cursorColor: fg,
-                            decoration: fd('Password'),
-                            obscureText: true,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            signIn();
-                          },
-                          style: ebs2,
-                          child: Container(
-                            child: Center(child: Text("LOGIN")),
-                          ),
-                        ),
-                        GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                Navigator.of(context).pushNamedAndRemoveUntil(
-                                    '/register/', (route) => false);
-                              });
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                              child: const Text(
-                                "Don't have an account? Register here!",
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 6, 185, 120)),
-                              ),
-                            ))
-                      ],
-                    ),
+                  routes: {
+                    '/home/': (context) => const HomeScreen(),
+                    '/register/': (context) => const Register(),
+                  },
+                  theme: Theme.of(context).copyWith(
+                    textSelectionTheme:
+                        const TextSelectionThemeData(selectionColor: bg),
+                    inputDecorationTheme: const InputDecorationTheme(
+                        floatingLabelStyle: TextStyle(color: bg)),
                   ),
+                  home: Scaffold(
+                    body: Container(
+                      width: width,
+                      height: height,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: bgimg,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                width: width / 2,
+                                child: TextFormField(
+                                  controller: _email,
+                                  style: fs,
+                                  cursorColor: fg,
+                                  decoration: fd('Email'),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                width: width / 2,
+                                child: TextFormField(
+                                  controller: _password,
+                                  style: fs,
+                                  cursorColor: fg,
+                                  decoration: fd('Password'),
+                                  obscureText: true,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                signIn();
+                              },
+                              style: ebs2,
+                              child: Container(
+                                child: const Center(child: Text("LOGIN")),
+                              ),
+                            ),
+                            GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    Navigator.of(context)
+                                        .pushNamedAndRemoveUntil(
+                                            '/register/', (route) => false);
+                                  });
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                                  child: Text(
+                                    "Don't have an account? Register here!",
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 6, 185, 120)),
+                                  ),
+                                ))
+                          ],
+                        ),
+                      ),
+                    ),
+                  ));
+
+            default:
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: bg,
                 ),
               );
-            default:
-              return Placeholder();
           }
         });
   }
@@ -160,32 +184,38 @@ class _RegisterState extends State<Register> {
     double width = MediaQuery.of(context).size.width;
     return MaterialApp(
         routes: {
-          '/home/': (context) => HomeScreen(),
-          '/login/': (context) => Login(),
+          '/home/': (context) => const HomeScreen(),
+          '/login/': (context) => const Login(),
         },
         home: Scaffold(
             body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: SizedBox(
+            //       width: width / 2,
+            //       child: TextFormField(
+            //         controller: _email,
+            //         style: fs,
+            //         cursorColor: fg,
+            //         decoration: fd('Email'),
+            //       )),
+            // ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
                 width: width / 2,
                 child: TextFormField(
-                  controller: _email,
+                  controller: _password,
                   style: fs,
                   cursorColor: fg,
-                  decoration: fd('Email'),
-                )),
-            SizedBox(
-              width: width / 2,
-              child: TextFormField(
-                controller: _password,
-                style: fs,
-                cursorColor: fg,
-                decoration: fd('Password'),
-                obscureText: true,
+                  decoration: fd('Password'),
+                  obscureText: true,
+                ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             ElevatedButton(
@@ -194,7 +224,7 @@ class _RegisterState extends State<Register> {
               },
               style: ebs2,
               child: Container(
-                child: Center(child: Text("REGISTER")),
+                child: const Center(child: Text("REGISTER")),
               ),
             ),
           ],

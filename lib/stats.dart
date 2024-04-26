@@ -1,10 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'consts.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 // final db = FirebaseFirestore.instance;
 // final now = DateTime.now();
@@ -31,10 +29,10 @@ class _StatsState extends State<Stats> {
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(child: Graph()),
-                Text("Recent Disposals", style: head),
+                Container(child: const Graph()),
+                const Text("Recent Disposals", style: head),
                 SizedBox(
-                    height: 500, child: ListView(children: [Tile(), Tile()]))
+                    height: 500, child: ListView(children: const [Tile(), Tile()]))
               ])),
     );
   }
@@ -68,27 +66,27 @@ class _GraphState extends State<Graph> {
         height: 500,
         child: BarChart(BarChartData(
             titlesData: FlTitlesData(
-                topTitles:
-                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                // topTitles:
+                //     AxisTitles(sideTitles: SideTitles(showTitles: false)),
                 rightTitles: AxisTitles(
                     sideTitles: SideTitles(
-                  interval: 1,
-                  reservedSize: 28,
-                  getTitlesWidget: (value, meta) {
-                    String text = value as String;
-                    return SideTitleWidget(
-                      axisSide: meta.axisSide,
-                      space: 0,
-                      child: Text(text,
-                          style: const TextStyle(
-                            color: fg,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          )),
-                    );
-                  },
-                ))),
-            gridData: FlGridData(show: false),
+              interval: 1,
+              reservedSize: 28,
+              getTitlesWidget: (value, meta) {
+                String text = value as String;
+                return SideTitleWidget(
+                  axisSide: meta.axisSide,
+                  space: 0,
+                  child: Text(text,
+                      style: const TextStyle(
+                        color: fg,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      )),
+                );
+              },
+            ))),
+            gridData: const FlGridData(show: false),
             maxY: data.reduce(max) + 5,
             barGroups: bardata)));
   }
@@ -104,7 +102,7 @@ class Tile extends StatefulWidget {
 class _TileState extends State<Tile> {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
         ListTile(
             leading: Icon(

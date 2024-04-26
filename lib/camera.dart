@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:google_mlkit_object_detection/google_mlkit_object_detection.dart';
+// import 'package:google_mlkit_object_detection/google_mlkit_object_detection.dart';
 import 'package:rightbin/consts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:tflite_flutter/tflite_flutter.dart';
-import 'dart:io';
-import 'package:flutter/services.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:typed_data';
-import 'package:image/image.dart' as img;
-import 'package:tflite_flutter/tflite_flutter_platform_interface.dart';
+// import 'package:tflite_flutter/tflite_flutter.dart';
+// import 'package:tflite_flutter/tflite_flutter_platform_interface.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
+/*
 Uint8List preprocessImage(Uint8List imageData) {
   img.Image? image = img.decodeImage(imageData);
 
@@ -22,8 +19,8 @@ Uint8List preprocessImage(Uint8List imageData) {
   Uint8List processedImageData = image.getBytes();
 
   return processedImageData;
-}
-
+}*/
+/*
 Future<String> getModelPath(String asset) async {
   final path = '${(await getApplicationSupportDirectory()).path}/$asset';
   await Directory(dirname(path)).create(recursive: true);
@@ -34,7 +31,7 @@ Future<String> getModelPath(String asset) async {
         .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
   }
   return file.path;
-}
+}*/
 
 class Camera extends StatefulWidget {
   const Camera({super.key});
@@ -53,8 +50,8 @@ class _CameraState extends State<Camera> {
         child: Center(
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Center(
               child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -66,7 +63,7 @@ class _CameraState extends State<Camera> {
                       size: 64,
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                         "Search",
                         style: sch,
@@ -80,19 +77,19 @@ class _CameraState extends State<Camera> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 16, 0),
+                  margin: const EdgeInsets.fromLTRB(0, 0, 16, 0),
                   child: ElevatedButton(
                     onPressed: () {
                       _pickImage(1);
                     },
                     style: ebs,
                     child: Container(
-                      child: Row(children: [
+                      child: const Row(children: [
                         Padding(
-                            padding: const EdgeInsets.all(12.0),
+                            padding: EdgeInsets.all(12.0),
                             child: Icon(Icons.image_rounded)),
                         Padding(
-                            padding: const EdgeInsets.all(12.0),
+                            padding: EdgeInsets.all(12.0),
                             child: Text("Gallery"))
                       ]),
                     ),
@@ -105,27 +102,26 @@ class _CameraState extends State<Camera> {
                       }
                     },
                     style: ebs,
-                    child: Row(children: [
+                    child: const Row(children: [
                       Padding(
-                          padding: const EdgeInsets.all(12.0),
+                          padding: EdgeInsets.all(12.0),
                           child: Icon(Icons.photo_camera_rounded)),
                       Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Text("Camera"))
+                          padding: EdgeInsets.all(12.0), child: Text("Camera"))
                     ])),
               ]),
           const SizedBox(
             height: 16,
           ),
-          Text(
-            out,
-            style: fs,
-          ),
+          // Text(
+          //   out,
+          //   style: fs,
+          // ),
           (selection != false)
               ? Image.file(selection)
-              : Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: const Text(
+              : const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
                       "Select an image from your gallery or click a photo using your camera to analyze for waste disposal.",
                       style: fs),
                 ),
@@ -144,8 +140,19 @@ class _CameraState extends State<Camera> {
       return;
     }
 
+    var imgbytes = await image.readAsBytes();
+    var b64img = base64Encode(imgbytes);
+    var url = Uri.parse('https://rb-server.aryamaan.xyz/');
+    var body = {"image": b64img};
+    final response = await http.post(url, body: body);
+
     setState(() {
-      out = "Processing image...";
+      if (response.statusCode == 200) {
+        out = response.body;
+        print(out);
+      } else {
+        print("Error uploading image: ${response.statusCode}");
+      }
     });
 
     // final modelPath = await getModelPath();
