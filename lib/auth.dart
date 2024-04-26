@@ -130,7 +130,12 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ));
-
+            case ConnectionState.waiting:
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: bg,
+                ),
+              );
             default:
               return const Center(
                 child: CircularProgressIndicator(

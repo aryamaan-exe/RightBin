@@ -6,15 +6,7 @@ import 'stats.dart';
 import 'camera.dart';
 
 void main() async {
-  try {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      // (user != null) ? const HomeScreen() :
-      runApp(const Login());
-      // runApp(const HomeScreen());
-    });
-  } catch (e) {
-    runApp(const Login());
-  }
+  runApp(Login());
 }
 
 class HomeScreen extends StatefulWidget {
