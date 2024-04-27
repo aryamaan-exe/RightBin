@@ -34,6 +34,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
     NetworkImage bgimg =
         const NetworkImage('https://images.aryamaan.xyz/Scanner.png');
 
@@ -44,19 +45,18 @@ class _LoginState extends State<Login> {
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
-              return MaterialApp(
-                  routes: {
-                    '/home/': (context) => const HomeScreen(),
-                    '/register/': (context) => const Register(),
-                  },
-                  theme: Theme.of(context).copyWith(
-                    textSelectionTheme:
-                        const TextSelectionThemeData(selectionColor: bg),
-                    inputDecorationTheme: const InputDecorationTheme(
-                        floatingLabelStyle: TextStyle(color: bg)),
-                  ),
-                  home: Scaffold(
-                    body: Container(
+              return Scaffold(
+                body: Stack(children: [
+                  Container(
+                    width: width,
+                    height: height,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: bgimg,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: Container(
                       width: width,
                       height: height,
                       decoration: BoxDecoration(
@@ -72,25 +72,43 @@ class _LoginState extends State<Login> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
+                              padding: EdgeInsets.all(32),
+                              child: Text(
+                                "Login",
+                                style: TextStyle(
+                                    color: bg,
+                                    fontSize: 48,
+                                    fontWeight: FontWeight.w800),
+                              ),
+                            ),
+                            Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: SizedBox(
-                                width: width / 2,
-                                child: TextFormField(
-                                  controller: _email,
-                                  style: fs,
-                                  cursorColor: fg,
-                                  decoration: fd('Email'),
+                                width: width / 1.5,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20.0)),
+                                  ),
+                                  child: TextFormField(
+                                    textAlign: TextAlign.center,
+                                    controller: _email,
+                                    style: TextStyle(color: bg),
+                                    cursorColor: bg,
+                                    decoration: fd('Email'),
+                                  ),
                                 ),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: SizedBox(
-                                width: width / 2,
+                                width: width / 1.5,
                                 child: TextFormField(
+                                  textAlign: TextAlign.center,
                                   controller: _password,
-                                  style: fs,
-                                  cursorColor: fg,
+                                  style: TextStyle(color: bg),
+                                  cursorColor: bg,
                                   decoration: fd('Password'),
                                   obscureText: true,
                                 ),
@@ -103,44 +121,276 @@ class _LoginState extends State<Login> {
                               onPressed: () {
                                 signIn();
                               },
-                              style: ebs2,
+                              style: ButtonStyle(
+                                  maximumSize: MaterialStatePropertyAll<Size>(
+                                      Size(width / 1.5, 48)),
+                                  backgroundColor:
+                                      const MaterialStatePropertyAll<Color>(bg),
+                                  foregroundColor:
+                                      const MaterialStatePropertyAll<Color>(fg),
+                                  shape: r),
                               child: Container(
-                                child: const Center(child: Text("LOGIN")),
+                                child: const Center(
+                                    child: Text(
+                                  "Log In",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 18),
+                                )),
                               ),
                             ),
                             GestureDetector(
                                 onTap: () {
                                   setState(() {
                                     Navigator.of(context)
-                                        .pushNamedAndRemoveUntil(
-                                            '/register/', (route) => false);
+                                        .pushReplacementNamed('/register/');
                                   });
                                 },
                                 child: const Padding(
                                   padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
                                   child: Text(
                                     "Don't have an account? Register here!",
-                                    style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 6, 185, 120)),
+                                    style: TextStyle(color: bg),
                                   ),
                                 ))
                           ],
                         ),
                       ),
                     ),
-                  ));
+                  ),
+                ]),
+              );
             case ConnectionState.waiting:
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: bg,
-                ),
+              return Scaffold(
+                body: Stack(children: [
+                  Container(
+                    width: width,
+                    height: height,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: bgimg,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: Container(
+                      width: width,
+                      height: height,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: bgimg,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(32),
+                              child: Text(
+                                "Login",
+                                style: TextStyle(
+                                    color: bg,
+                                    fontSize: 48,
+                                    fontWeight: FontWeight.w800),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                width: width / 1.5,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20.0)),
+                                  ),
+                                  child: TextFormField(
+                                    textAlign: TextAlign.center,
+                                    controller: _email,
+                                    style: TextStyle(color: bg),
+                                    cursorColor: bg,
+                                    decoration: fd('Email'),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                width: width / 1.5,
+                                child: TextFormField(
+                                  textAlign: TextAlign.center,
+                                  controller: _password,
+                                  style: TextStyle(color: bg),
+                                  cursorColor: bg,
+                                  decoration: fd('Password'),
+                                  obscureText: true,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                signIn();
+                              },
+                              style: ButtonStyle(
+                                  maximumSize: MaterialStatePropertyAll<Size>(
+                                      Size(width / 1.5, 48)),
+                                  backgroundColor:
+                                      const MaterialStatePropertyAll<Color>(bg),
+                                  foregroundColor:
+                                      const MaterialStatePropertyAll<Color>(fg),
+                                  shape: r),
+                              child: Container(
+                                child: const Center(
+                                    child: Text(
+                                  "Log In",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 18),
+                                )),
+                              ),
+                            ),
+                            GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed('/register/');
+                                  });
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                                  child: Text(
+                                    "Don't have an account? Register here!",
+                                    style: TextStyle(color: bg),
+                                  ),
+                                ))
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ]),
               );
             default:
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: bg,
-                ),
+              return Scaffold(
+                body: Stack(children: [
+                  Container(
+                    width: width,
+                    height: height,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: bgimg,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: Container(
+                      width: width,
+                      height: height,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: bgimg,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(32),
+                              child: Text(
+                                "Login",
+                                style: TextStyle(
+                                    color: bg,
+                                    fontSize: 48,
+                                    fontWeight: FontWeight.w800),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                width: width / 1.5,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20.0)),
+                                  ),
+                                  child: TextFormField(
+                                    textAlign: TextAlign.center,
+                                    controller: _email,
+                                    style: TextStyle(color: bg),
+                                    cursorColor: bg,
+                                    decoration: fd('Email'),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                width: width / 1.5,
+                                child: TextFormField(
+                                  textAlign: TextAlign.center,
+                                  controller: _password,
+                                  style: TextStyle(color: bg),
+                                  cursorColor: bg,
+                                  decoration: fd('Password'),
+                                  obscureText: true,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                signIn();
+                              },
+                              style: ButtonStyle(
+                                  maximumSize: MaterialStatePropertyAll<Size>(
+                                      Size(width / 1.5, 48)),
+                                  backgroundColor:
+                                      const MaterialStatePropertyAll<Color>(bg),
+                                  foregroundColor:
+                                      const MaterialStatePropertyAll<Color>(fg),
+                                  shape: r),
+                              child: Container(
+                                child: const Center(
+                                    child: Text(
+                                  "Log In",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 18),
+                                )),
+                              ),
+                            ),
+                            GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed('/register/');
+                                  });
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                                  child: Text(
+                                    "Don't have an account? Register here!",
+                                    style: TextStyle(color: bg),
+                                  ),
+                                ))
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ]),
               );
           }
         });
@@ -152,7 +402,7 @@ class _LoginState extends State<Login> {
       final password = _password.text;
       UserCredential credentials = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      Navigator.of(context).pushNamedAndRemoveUntil('/home/', (route) => false);
+      Navigator.of(context).pushReplacementNamed('/home/');
     } catch (e) {
       print("Sign in error: $e");
     }
@@ -187,62 +437,337 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return MaterialApp(
-        routes: {
-          '/home/': (context) => const HomeScreen(),
-          '/login/': (context) => const Login(),
-        },
-        home: Scaffold(
-            body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: SizedBox(
-            //       width: width / 2,
-            //       child: TextFormField(
-            //         controller: _email,
-            //         style: fs,
-            //         cursorColor: fg,
-            //         decoration: fd('Email'),
-            //       )),
-            // ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: width / 2,
-                child: TextFormField(
-                  controller: _password,
-                  style: fs,
-                  cursorColor: fg,
-                  decoration: fd('Password'),
-                  obscureText: true,
+    double height = MediaQuery.of(context).size.height;
+
+    NetworkImage bgimg =
+        const NetworkImage('https://images.aryamaan.xyz/Scanner.png');
+
+    return FutureBuilder(
+        future: Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        ),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              return Scaffold(
+                body: Container(
+                  width: width,
+                  height: height,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: bgimg,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(32),
+                          child: Text(
+                            "Create an Account",
+                            style: TextStyle(
+                                color: bg,
+                                fontSize: 40,
+                                fontWeight: FontWeight.w800),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            width: width / 1.5,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                              ),
+                              child: TextFormField(
+                                textAlign: TextAlign.center,
+                                controller: _email,
+                                style: TextStyle(color: bg),
+                                cursorColor: bg,
+                                decoration: fd('Email'),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            width: width / 1.5,
+                            child: TextFormField(
+                              textAlign: TextAlign.center,
+                              controller: _password,
+                              style: TextStyle(color: bg),
+                              cursorColor: bg,
+                              decoration: fd('Password'),
+                              obscureText: true,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            signIn();
+                          },
+                          style: ButtonStyle(
+                              maximumSize: MaterialStatePropertyAll<Size>(
+                                  Size(width / 1.5, 48)),
+                              backgroundColor:
+                                  const MaterialStatePropertyAll<Color>(bg),
+                              foregroundColor:
+                                  const MaterialStatePropertyAll<Color>(fg),
+                              shape: r),
+                          child: Container(
+                            child: const Center(
+                                child: Text(
+                              "Sign Up",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700, fontSize: 18),
+                            )),
+                          ),
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                Navigator.of(context)
+                                    .pushReplacementNamed('/login/');
+                              });
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                              child: Text(
+                                "Already have an account? Log in here!",
+                                style: TextStyle(color: bg),
+                              ),
+                            ))
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                register();
-              },
-              style: ebs2,
-              child: Container(
-                child: const Center(child: Text("REGISTER")),
-              ),
-            ),
-          ],
-        )));
+              );
+            case ConnectionState.waiting:
+              return Scaffold(
+                body: Container(
+                  width: width,
+                  height: height,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: bgimg,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(32),
+                          child: Text(
+                            "Create an Account",
+                            style: TextStyle(
+                                color: bg,
+                                fontSize: 40,
+                                fontWeight: FontWeight.w800),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            width: width / 1.5,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                              ),
+                              child: TextFormField(
+                                textAlign: TextAlign.center,
+                                controller: _email,
+                                style: TextStyle(color: bg),
+                                cursorColor: bg,
+                                decoration: fd('Email'),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            width: width / 1.5,
+                            child: TextFormField(
+                              textAlign: TextAlign.center,
+                              controller: _password,
+                              style: TextStyle(color: bg),
+                              cursorColor: bg,
+                              decoration: fd('Password'),
+                              obscureText: true,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            signIn();
+                          },
+                          style: ButtonStyle(
+                              maximumSize: MaterialStatePropertyAll<Size>(
+                                  Size(width / 1.5, 48)),
+                              backgroundColor:
+                                  const MaterialStatePropertyAll<Color>(bg),
+                              foregroundColor:
+                                  const MaterialStatePropertyAll<Color>(fg),
+                              shape: r),
+                          child: Container(
+                            child: const Center(
+                                child: Text(
+                              "Sign Up",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700, fontSize: 18),
+                            )),
+                          ),
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                Navigator.of(context)
+                                    .pushReplacementNamed('/login/');
+                              });
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                              child: Text(
+                                "Already have an account? Log in here!",
+                                style: TextStyle(color: bg),
+                              ),
+                            ))
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            default:
+              return Scaffold(
+                body: Container(
+                  width: width,
+                  height: height,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: bgimg,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(32),
+                          child: Text(
+                            "Create an Account",
+                            style: TextStyle(
+                                color: bg,
+                                fontSize: 40,
+                                fontWeight: FontWeight.w800),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            width: width / 1.5,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0)),
+                              ),
+                              child: TextFormField(
+                                textAlign: TextAlign.center,
+                                controller: _email,
+                                style: TextStyle(color: bg),
+                                cursorColor: bg,
+                                decoration: fd('Email'),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            width: width / 1.5,
+                            child: TextFormField(
+                              textAlign: TextAlign.center,
+                              controller: _password,
+                              style: TextStyle(color: bg),
+                              cursorColor: bg,
+                              decoration: fd('Password'),
+                              obscureText: true,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            signIn();
+                          },
+                          style: ButtonStyle(
+                              maximumSize: MaterialStatePropertyAll<Size>(
+                                  Size(width / 1.5, 48)),
+                              backgroundColor:
+                                  const MaterialStatePropertyAll<Color>(bg),
+                              foregroundColor:
+                                  const MaterialStatePropertyAll<Color>(fg),
+                              shape: r),
+                          child: Container(
+                            child: const Center(
+                                child: Text(
+                              "Sign Up",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700, fontSize: 18),
+                            )),
+                          ),
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                Navigator.of(context)
+                                    .pushReplacementNamed('/login/');
+                              });
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                              child: Text(
+                                "Already have an account? Log in here!",
+                                style: TextStyle(color: bg),
+                              ),
+                            ))
+                      ],
+                    ),
+                  ),
+                ),
+              );
+          }
+        });
   }
 
-  Future<void> register() async {
+  Future<void> signIn() async {
     try {
       final email = _email.text;
       final password = _password.text;
       UserCredential credentials = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      Navigator.of(context).pushNamedAndRemoveUntil('/home/', (route) => false);
+      Navigator.of(context).pushReplacementNamed('/home/');
     } catch (e) {
       print("Sign in error: $e");
     }

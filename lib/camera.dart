@@ -59,7 +59,7 @@ class _CameraState extends State<Camera> {
                   children: [
                     Icon(
                       Icons.search_rounded,
-                      color: fg,
+                      color: bg,
                       size: 64,
                     ),
                     Padding(
@@ -107,7 +107,8 @@ class _CameraState extends State<Camera> {
                           padding: EdgeInsets.all(12.0),
                           child: Icon(Icons.photo_camera_rounded)),
                       Padding(
-                          padding: EdgeInsets.all(12.0), child: Text("Camera"))
+                          padding: EdgeInsets.fromLTRB(12, 12, 0, 12),
+                          child: Text("Camera"))
                     ])),
               ]),
           const SizedBox(
@@ -142,9 +143,15 @@ class _CameraState extends State<Camera> {
 
     var imgbytes = await image.readAsBytes();
     var b64img = base64Encode(imgbytes);
-    var url = Uri.parse('https://rb-server.aryamaan.xyz/');
-    var body = {"image": b64img};
-    final response = await http.post(url, body: body);
+    var url = Uri.parse('');
+    var headers = {
+      "ngrok-skip-browser-warning": "1",
+      "User-Agent": "ew434ce4rvr5"
+    };
+    var body = {
+      "image": b64img,
+    };
+    final response = await http.post(url, headers: headers, body: body);
 
     setState(() {
       if (response.statusCode == 200) {

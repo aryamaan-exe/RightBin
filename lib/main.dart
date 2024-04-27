@@ -6,7 +6,7 @@ import 'stats.dart';
 import 'camera.dart';
 
 void main() async {
-  runApp(Login());
+  runApp(HomeScreen());
 }
 
 class HomeScreen extends StatefulWidget {
@@ -17,17 +17,33 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int i = 1;
-  var pages = <Widget>[
-    const Stats(),
-    const Camera(),
-  ];
-  var titles = [const Text("Your Stats"), const Text("")];
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
+    return MaterialApp(routes: {
+      '/home/': (context) => Pages(),
+      '/register/': (context) => Register(),
+      '/login/': (context) => Login()
+    }, theme: td, home: Login());
+  }
+}
+
+class Pages extends StatefulWidget {
+  const Pages({super.key});
+
+  @override
+  State<Pages> createState() => _PagesState();
+}
+
+class _PagesState extends State<Pages> {
+  int i = 1;
+  @override
+  Widget build(BuildContext context) {
+    var pages = <Widget>[
+      const Stats(),
+      const Camera(),
+    ];
+    // var titles = [const Text("Your Stats"), const Text("")];
+    return Scaffold(
       backgroundColor: dm,
       // appBar: AppBar(
       //   title: titles[i],
@@ -39,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: bg,
         selectedItemColor: fg,
-        unselectedItemColor: bg_old,
+        unselectedItemColor: dm,
         currentIndex: i,
         items: const [
           BottomNavigationBarItem(
@@ -49,10 +65,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         onTap: (value) {
           setState(() {
+            print(i);
             i = value;
+            print(i);
           });
         },
       ),
-    ));
+    );
   }
 }

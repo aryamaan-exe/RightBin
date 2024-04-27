@@ -29,10 +29,28 @@ class _StatsState extends State<Stats> {
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.bar_chart_rounded,
+                        color: bg,
+                        size: 64,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Stats",
+                          style: sch,
+                        ),
+                      )
+                    ]),
                 Container(child: const Graph()),
                 const Text("Recent Disposals", style: head),
                 SizedBox(
-                    height: 500, child: ListView(children: const [Tile(), Tile()]))
+                    height: 500,
+                    child: ListView(children: const [Tile(), Tile()]))
               ])),
     );
   }
@@ -47,16 +65,16 @@ class Graph extends StatefulWidget {
 
 class _GraphState extends State<Graph> {
   List<BarChartGroupData> bardata = [];
-  List<int> data = [1, 2, 1, 4, 5];
+  List<num> data = [1, 2, 1, 4, 5];
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    num width = MediaQuery.of(context).size.width;
     for (int j = 0; j < data.length; j++) {
       bardata.add(BarChartGroupData(x: j + 1, barRods: [
         BarChartRodData(
-            toY: data[j] as double,
-            color: fg,
+            toY: data[j].toDouble(),
+            color: btn,
             width: 18,
             borderRadius: BorderRadius.circular(5)),
       ]));
@@ -66,26 +84,26 @@ class _GraphState extends State<Graph> {
         height: 500,
         child: BarChart(BarChartData(
             titlesData: FlTitlesData(
-                // topTitles:
-                //     AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                topTitles:
+                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
                 rightTitles: AxisTitles(
                     sideTitles: SideTitles(
-              interval: 1,
-              reservedSize: 28,
-              getTitlesWidget: (value, meta) {
-                String text = value as String;
-                return SideTitleWidget(
-                  axisSide: meta.axisSide,
-                  space: 0,
-                  child: Text(text,
-                      style: const TextStyle(
-                        color: fg,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      )),
-                );
-              },
-            ))),
+                  interval: 1,
+                  reservedSize: 28,
+                  getTitlesWidget: (value, meta) {
+                    String text = value.toString();
+                    return SideTitleWidget(
+                      axisSide: meta.axisSide,
+                      space: 0,
+                      child: Text(text,
+                          style: const TextStyle(
+                            color: fg,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          )),
+                    );
+                  },
+                ))),
             gridData: const FlGridData(show: false),
             maxY: data.reduce(max) + 5,
             barGroups: bardata)));
@@ -107,10 +125,10 @@ class _TileState extends State<Tile> {
         ListTile(
             leading: Icon(
               Icons.calendar_month_rounded,
-              color: fg,
+              color: bg,
             ),
             title: Text(
-              "Hello",
+              "27/04/24: 5",
               style: fs,
             )),
         Divider(),
