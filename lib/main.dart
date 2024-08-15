@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
       '/home/': (context) => Pages(),
       '/register/': (context) => Register(),
       '/login/': (context) => Login()
-    }, theme: td, home: Login());
+    }, theme: td, home: Login ());
   }
 }
 

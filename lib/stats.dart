@@ -1,8 +1,9 @@
 import 'dart:math';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'consts.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'dart:convert';
 
 // final db = FirebaseFirestore.instance;
 // final now = DateTime.now();
@@ -65,10 +66,20 @@ class Graph extends StatefulWidget {
 
 class _GraphState extends State<Graph> {
   List<BarChartGroupData> bardata = [];
-  List<num> data = [1, 2, 1, 4, 5];
+
+  dynamic makereq() async {
+    var url =
+        Uri.parse('https://http-forwarder-aarav-dayals-projects.vercel.app/');
+
+    var body = json.encode({"route": "/stats"});
+    final response = await http.post(url, body: body);
+    return response.body;
+  }
 
   @override
   Widget build(BuildContext context) {
+    makereq();
+    List<num> data = [1, 4, 1, 5, 2];
     num width = MediaQuery.of(context).size.width;
     for (int j = 0; j < data.length; j++) {
       bardata.add(BarChartGroupData(x: j + 1, barRods: [

@@ -42,7 +42,7 @@ class Camera extends StatefulWidget {
 
 class _CameraState extends State<Camera> {
   dynamic selection = false;
-  dynamic out = 'owo';
+  dynamic output = '';
 
   @override
   Widget build(BuildContext context) {
@@ -114,10 +114,10 @@ class _CameraState extends State<Camera> {
           const SizedBox(
             height: 16,
           ),
-          // Text(
-          //   out,
-          //   style: fs,
-          // ),
+          Text(
+            output,
+            style: fs,
+          ),
           (selection != false)
               ? Image.file(selection)
               : const Padding(
@@ -137,28 +137,27 @@ class _CameraState extends State<Camera> {
     );
 
     if (image == null) {
-      print("Image selection canceled");
       return;
     }
 
+    setState(() {
+      output = 'Scanning...';
+    });
+
     var imgbytes = await image.readAsBytes();
     var b64img = base64Encode(imgbytes);
-    var url = Uri.parse('');
-    var headers = {
-      "ngrok-skip-browser-warning": "1",
-      "User-Agent": "ew434ce4rvr5"
-    };
-    var body = {
-      "image": b64img,
-    };
-    final response = await http.post(url, headers: headers, body: body);
+    var url =
+        Uri.parse('https://http-forwarder-aarav-dayals-projects.vercel.app/');
+
+    var body = json.encode({"image": b64img, "route": "/"});
+    final response = await http.post(url,
+        headers: {"Content-Type": "application/json"}, body: body);
 
     setState(() {
       if (response.statusCode == 200) {
-        out = response.body;
-        print(out);
+        output = response.body;
       } else {
-        print("Error uploading image: ${response.statusCode}");
+        output = ("Error uploading image: ${response.statusCode}");
       }
     });
 
